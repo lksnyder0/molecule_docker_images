@@ -1,8 +1,8 @@
 # Inspired by https://github.com/alehaa/docker-debian-systemd/blob/master/Dockerfile
 
 ARG TAG=latest
-FROM lksnyder0/debian:${TAG}
-COPY --from=0 / /
+FROM lksnyder0/debian:${TAG} AS base
+COPY --from=base / /
 
 # The 'container' environment variable tells systemd that it's running inside a
 # Docker container environment.
