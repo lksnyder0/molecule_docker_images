@@ -28,7 +28,6 @@ RUN echo 'debconf debconf/frontend select teletype' | debconf-set-selections
 # NOTE: No syslog daemon will be installed, as systemd's journald should fit
 #       most needs. Please file an issue if you think this should be changed.
 RUN apt-get update && \
-    apt-get dist-upgrade -y && \
     apt-get install -y --no-install-recommends \
         systemd      \
         systemd-sysv \
