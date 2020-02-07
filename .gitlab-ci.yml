@@ -1,23 +1,43 @@
 docker-debian-master:
-    # Official docker image.
-    image: docker:latest
-    stage: build
-    services:
-      - docker:dind
-    before_script:
-      - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
-    script:
-      - docker build --pull -t "$CI_REGISTRY_IMAGE/debian:latest" -f debian.Dockerfile .
-      - docker tag "$CI_REGISTRY_IMAGE/debian:latest" "$CI_REGISTRY_IMAGE/debian:10"
-      - docker push "$CI_REGISTRY_IMAGE/debian:latest"
-      - docker push "$CI_REGISTRY_IMAGE/debian:10"
-      - docker build --pull -t "$CI_REGISTRY_IMAGE/debian:bullseye" -f debian.Dockerfile --build-arg TAG=bullseye .
-      - docker tag "$CI_REGISTRY_IMAGE/debian:bullseye" "$CI_REGISTRY_IMAGE/debian:11"
-      - docker push "$CI_REGISTRY_IMAGE/debian:bullseye"
-      - docker push "$CI_REGISTRY_IMAGE/debian:11"
-    only:
-      - master
-  
+  # Official docker image.
+  image: docker:latest
+  stage: build
+  services:
+    - docker:dind
+  before_script:
+    - docker login -u "$DOCKERHUB_USER" -p "$DOCKERHUB_PASSWORD"
+  script:
+    - docker build --pull -t "$DH_NAMESPACE/debian:latest" -f debian.Dockerfile .
+    - docker tag "$DH_NAMESPACE/debian:latest" "$DH_NAMESPACE/debian:10"
+    - docker push "$DH_NAMESPACE/debian:latest"
+    - docker push "$DH_NAMESPACE/debian:10"
+    - docker build --pull -t "$DH_NAMESPACE/debian:bullseye" -f debian.Dockerfile --build-arg TAG=bullseye .
+    - docker tag "$DH_NAMESPACE/debian:bullseye" "$DH_NAMESPACE/debian:11"
+    - docker push "$DH_NAMESPACE/debian:bullseye"
+    - docker push "$DH_NAMESPACE/debian:11"
+  only:
+    - master
+
+docker-debian-rc:
+  # Official docker image.
+  image: docker:latest
+  stage: build
+  services:
+    - docker:dind
+  before_script:
+    - docker login -u "$DOCKERHUB_USER" -p "$DOCKERHUB_PASSWORD"
+  script:
+    - docker build --pull -t "$DH_NAMESPACE/debian:latest_$CI_COMMIT_REF_SLUG" -f debian.Dockerfile .
+    - docker tag "$DH_NAMESPACE/debian:latest_$CI_COMMIT_REF_SLUG" "$DH_NAMESPACE/debian:10_$CI_COMMIT_REF_SLUG"
+    - docker push "$DH_NAMESPACE/debian:latest_$CI_COMMIT_REF_SLUG"
+    - docker push "$DH_NAMESPACE/debian:10_$CI_COMMIT_REF_SLUG"
+    - docker build --pull -t "$DH_NAMESPACE/debian:bullseye_$CI_COMMIT_REF_SLUG" -f debian.Dockerfile --build-arg TAG=bullseye .
+    - docker push "$DH_NAMESPACE/debian:bullseye_$CI_COMMIT_REF_SLUG"
+    - docker tag "$DH_NAMESPACE/debian:bullseye_$CI_COMMIT_REF_SLUG" "$DH_NAMESPACE/debian:11_$CI_COMMIT_REF_SLUG"
+  only:
+    - /^release\/.*$/
+      
+
 docker-debian:
   # Official docker image.
   image: docker:latest
@@ -36,3 +56,4 @@ docker-debian:
     - docker tag "$CI_REGISTRY_IMAGE/debian:bullseye_$CI_COMMIT_REF_SLUG" "$CI_REGISTRY_IMAGE/debian:11_$CI_COMMIT_REF_SLUG"
   except:
     - master
+    - /^release\/.*$/
