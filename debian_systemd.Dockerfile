@@ -34,9 +34,8 @@ RUN apt-get update && \
         systemd-sysv \
         cron         \
         anacron && \
-    apt-get clean
-
-RUN rm -rf                        \
+    apt-get clean && \
+    rm -rf                        \
     /var/lib/apt/lists/*          \
     /var/log/alternatives.log     \
     /var/log/apt/history.log      \
