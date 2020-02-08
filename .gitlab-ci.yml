@@ -5,7 +5,7 @@ stages:
 docker-debian-master:
   # Official docker image.
   image: docker:latest
-  stage: build
+  stage: base
   services:
     - docker:dind
   before_script:
@@ -33,7 +33,7 @@ docker-debian-master:
 docker-debian-rc:
   # Official docker image.
   image: docker:latest
-  stage: build
+  stage: base
   services:
     - docker:dind
   before_script:
