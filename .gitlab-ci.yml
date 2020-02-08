@@ -22,7 +22,7 @@ docker-debian-master:
     - docker build --pull -t "$DH_NAMESPACE/debian_systemd:bullseye" -f debian_systemd.Dockerfile --build-arg TAG=bullseye .
     - docker tag "$DH_NAMESPACE/debian_systemd:bullseye" "$DH_NAMESPACE/debian_systemd:11"
     - docker push "$DH_NAMESPACE/debian_systemd:bullseye"
-    - docker push "DH_NAMESPACE/debian_systemd:11"
+    - docker push "$DH_NAMESPACE/debian_systemd:11"
   only:
     - master
 
@@ -51,6 +51,7 @@ docker-debian-rc:
     - docker push "$DH_NAMESPACE/debian_systemd:bullseye_$CI_COMMIT_REF_SLUG"
     - docker push "$DH_NAMESPACE/debian_systemd:11_$CI_COMMIT_REF_SLUG"
   only:
+    - /^hotfix\/.*$/
     - /^release\/.*$/
       
 
@@ -78,8 +79,7 @@ docker-debian:
     - docker tag "$CI_REGISTRY_IMAGE/debian_systemd:bullseye_$CI_COMMIT_REF_SLUG" "$CI_REGISTRY_IMAGE/debian_systemd:11_$CI_COMMIT_REF_SLUG"
     - docker push "$CI_REGISTRY_IMAGE/debian_systemd:bullseye_$CI_COMMIT_REF_SLUG"
     - docker push "$CI_REGISTRY_IMAGE/debian_systemd:11_$CI_COMMIT_REF_SLUG"
-  except:
-    - master
-    - develop
-    - tags
-    - /^release\/.*$/
+  only:
+    - /^feature\/.*$/
+    - /^bugfix\/.*$/
+
