@@ -1,3 +1,7 @@
+stages:
+  - base
+  - specific
+
 docker-debian-master:
   # Official docker image.
   image: docker:latest
@@ -84,7 +88,7 @@ docker-debian-rc:
 
 test-docker-debian_systemd:
   image: docker:latest
-  stage: build
+  stage: specific
   services:
     - docker:dind
   before_script:
@@ -101,7 +105,6 @@ test-docker-debian_systemd:
     - docker push "$CI_REGISTRY_IMAGE/debian_systemd:11_$CI_COMMIT_REF_SLUG"
   rules:
     - changes:
-      - debian.Dockerfile
       - debian_systemd.Dockerfile
       when: always
 
