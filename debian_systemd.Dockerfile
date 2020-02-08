@@ -12,8 +12,6 @@ ENV container docker
 # Therefore, the debconf frontend will be set to 'teletype' to avoid error
 # messages about no dialog frontend could be found.
 RUN echo 'debconf debconf/frontend select teletype' | debconf-set-selections
-
-
 # Install the necessary packages.
 #
 # In addition to the regular Debian base image, a BASIC set of packages from the
