@@ -20,8 +20,9 @@ docker-debian-master:
     - docker push "$DH_NAMESPACE/debian_systemd:latest"
     - docker push "$DH_NAMESPACE/debian_systemd:10"
     - docker build --pull -t "$DH_NAMESPACE/debian_systemd:bullseye" -f debian_systemd.Dockerfile --build-arg TAG=bullseye .
-    - docker push "$DH_NAMESPACE/debian_systemd:bullseye"
     - docker tag "$DH_NAMESPACE/debian_systemd:bullseye" "$DH_NAMESPACE/debian_systemd:11"
+    - docker push "$DH_NAMESPACE/debian_systemd:bullseye"
+    - docker push "DH_NAMESPACE/debian_systemd:11"
   only:
     - master
 
@@ -46,8 +47,9 @@ docker-debian-rc:
     - docker push "$DH_NAMESPACE/debian_systemd:latest_$CI_COMMIT_REF_SLUG"
     - docker push "$DH_NAMESPACE/debian_systemd:10_$CI_COMMIT_REF_SLUG"
     - docker build --pull -t "$DH_NAMESPACE/debian_systemd:bullseye_$CI_COMMIT_REF_SLUG" -f debian_systemd.Dockerfile --build-arg TAG=bullseye .
-    - docker push "$DH_NAMESPACE/debian_systemd:bullseye_$CI_COMMIT_REF_SLUG"
     - docker tag "$DH_NAMESPACE/debian_systemd:bullseye_$CI_COMMIT_REF_SLUG" "$DH_NAMESPACE/debian_systemd:11_$CI_COMMIT_REF_SLUG"
+    - docker push "$DH_NAMESPACE/debian_systemd:bullseye_$CI_COMMIT_REF_SLUG"
+    - docker push "$DH_NAMESPACE/debian_systemd:11_$CI_COMMIT_REF_SLUG"
   only:
     - /^release\/.*$/
       
@@ -79,4 +81,5 @@ docker-debian:
   except:
     - master
     - develop
+    - tags
     - /^release\/.*$/
