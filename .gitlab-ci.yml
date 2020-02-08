@@ -58,6 +58,10 @@ docker-debian:
     - docker tag "$CI_REGISTRY_IMAGE/debian_systemd:latest_$CI_COMMIT_REF_SLUG" "$CI_REGISTRY_IMAGE/debian_systemd:10_$CI_COMMIT_REF_SLUG"
     - docker push "$CI_REGISTRY_IMAGE/debian_systemd:latest_$CI_COMMIT_REF_SLUG"
     - docker push "$CI_REGISTRY_IMAGE/debian_systemd:10_$CI_COMMIT_REF_SLUG"
+    - docker build --pull -t "$CI_REGISTRY_IMAGE/debian_systemd:bullseye_$CI_COMMIT_REF_SLUG" -f debian_systemd.Dockerfile .
+    - docker tag "$CI_REGISTRY_IMAGE/debian_systemd:bullseye_$CI_COMMIT_REF_SLUG" "$CI_REGISTRY_IMAGE/debian_systemd:11_$CI_COMMIT_REF_SLUG"
+    - docker push "$CI_REGISTRY_IMAGE/debian_systemd:bullseye_$CI_COMMIT_REF_SLUG"
+    - docker push "$CI_REGISTRY_IMAGE/debian_systemd:11_$CI_COMMIT_REF_SLUG"
   except:
     - master
     - /^release\/.*$/
