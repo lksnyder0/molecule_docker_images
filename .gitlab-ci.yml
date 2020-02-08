@@ -79,4 +79,5 @@ docker-debian:
   except:
     - master
     - develop
+    - tags
     - /^release\/.*$/
