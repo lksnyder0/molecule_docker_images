@@ -82,7 +82,7 @@ docker-debian-rc:
 #     - /^feature\/.*$/
 #     - /^bugfix\/.*$/
 
-docker-debian_systemd:
+test-docker-debian_systemd:
   image: docker:latest
   stage: build
   services:
@@ -90,12 +90,18 @@ docker-debian_systemd:
   before_script:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
   script:
+    - docker build --pull -t "$CI_REGISTRY_IMAGE/debian_systemd:10_$CI_COMMIT_REF_SLUG" -f debian_systemd.Dockerfile .
+    - docker tag "$CI_REGISTRY_IMAGE/debian_systemd:10_$CI_COMMIT_REF_SLUG" "$CI_REGISTRY_IMAGE/debian_systemd:latest_$CI_COMMIT_REF_SLUG"   
     - docker build --pull -t "$CI_REGISTRY_IMAGE/debian_systemd:bullseye_$CI_COMMIT_REF_SLUG" -f debian_systemd.Dockerfile .
     - docker tag "$CI_REGISTRY_IMAGE/debian_systemd:bullseye_$CI_COMMIT_REF_SLUG" "$CI_REGISTRY_IMAGE/debian_systemd:11_$CI_COMMIT_REF_SLUG"
   after_script:
+    - docker push "$CI_REGISTRY_IMAGE/debian_systemd:10_$CI_COMMIT_REF_SLUG"
+    - docker push "$CI_REGISTRY_IMAGE/debian_systemd:latest_$CI_COMMIT_REF_SLUG"
     - docker push "$CI_REGISTRY_IMAGE/debian_systemd:bullseye_$CI_COMMIT_REF_SLUG"
     - docker push "$CI_REGISTRY_IMAGE/debian_systemd:11_$CI_COMMIT_REF_SLUG"
   rules:
     - changes:
+      - debian.Dockerfile
       - debian_systemd.Dockerfile
+      when: always
 
