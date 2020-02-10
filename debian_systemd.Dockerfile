@@ -3,8 +3,6 @@ ARG TAG=latest
 ARG BASEIMAGE=lksnyder0/debian
 FROM ${BASEIMAGE}:${TAG}
 
-# The 'container' environment variable tells systemd that it's running inside a
-# Docker container environment.
 ENV container docker
 
 # Configure the debconf frontend.
