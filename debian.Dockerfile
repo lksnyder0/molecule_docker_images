@@ -2,8 +2,7 @@ ARG TAG=latest
 FROM debian:${TAG}
 
 RUN apt-get update                      \
-    &&  apt-get install -y python       \
-        python3                         \
+    &&  apt-get install -y python3      \
         sudo                            \
         bash                            \
         ca-certificates                 \
