@@ -61,6 +61,7 @@ debian_base-test:
   before_script:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
   script:
+    - echo $CI_COMMIT_BRANCH
     - docker build --pull -t "$CI_REGISTRY_IMAGE/debian:10_dev_$GITLAB_USER_LOGIN" -f debian.Dockerfile .
     - docker tag "$CI_REGISTRY_IMAGE/debian:10_dev_$GITLAB_USER_LOGIN" "$CI_REGISTRY_IMAGE/debian:buster_dev_$GITLAB_USER_LOGIN"
     - docker tag "$CI_REGISTRY_IMAGE/debian:10_dev_$GITLAB_USER_LOGIN" "$CI_REGISTRY_IMAGE/debian:latest_dev_$GITLAB_USER_LOGIN"
