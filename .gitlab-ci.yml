@@ -165,3 +165,28 @@ centos_base-test:
         - centos/centos.Dockerfile
       when: always
 
+centos_systemd-test:
+  image: docker:latest
+  stage: extended
+  services:
+    - docker:dind
+  variables:
+    baseimage: registry.gitlab.com/lksnyder0/molecule_docker_images/centos
+    tag8: 8_dev_lksnyder0
+    tag7: 7_dev_lksnyder0
+  before_script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+  script:
+    - docker build --compress --pull -t "$CI_REGISTRY_IMAGE/centos_systemd:8_dev_$GITLAB_USER_LOGIN" --build-arg TAG=$tag8 --build-arg BASEIMAGE=$baseimage -f centos/centos_systemd.Dockerfile centos
+    - docker tag "$CI_REGISTRY_IMAGE/centos_systemd:8_dev_$GITLAB_USER_LOGIN" "$CI_REGISTRY_IMAGE/centos_systemd:latest_$GITLAB_USER_LOGIN"
+    - docker build --compress --pull -t "$CI_REGISTRY_IMAGE/centos_systemd:7_dev_$GITLAB_USER_LOGIN" --build-arg TAG=$tag7 --build-arg BASEIMAGE=$baseimage -f centos/centos_systemd.Dockerfile centos
+  after_script:
+    - docker push "$CI_REGISTRY_IMAGE/centos_systemd:8_dev_$GITLAB_USER_LOGIN"
+    - docker push "$CI_REGISTRY_IMAGE/centos_systemd:latest_$GITLAB_USER_LOGIN"
+    - docker push "$CI_REGISTRY_IMAGE/centos_systemd:7_dev_$GITLAB_USER_LOGIN"
+  rules:
+    - if: $CI_COMMIT_BRANCH != 'master'
+      changes:
+        - centos/centos_systemd.Dockerfile
+      when: always
+
