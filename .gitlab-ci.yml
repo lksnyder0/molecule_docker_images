@@ -29,7 +29,7 @@ debian_release:
 
 debian_systemd-release:
   image: docker:latest
-  stage: base
+  stage: extended
   services:
     - docker:dind
   before_script:
