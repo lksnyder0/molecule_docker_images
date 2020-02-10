@@ -22,7 +22,7 @@ debian_release:
     - docker push "$DH_NAMESPACE/debian:11"
     - docker push "$DH_NAMESPACE/debian:bullseye"
   rules:
-    - if: '$CI_COMMIT_BRANCH == /^master$/'
+    - if: $CI_COMMIT_BRANCH == 'master'
       changes:
         - debian.Dockerfile
       when: always
@@ -47,7 +47,7 @@ debian_systemd-release:
     - docker push "$DH_NAMESPACE/debian_systemd:11"
     - docker push "$DH_NAMESPACE/debian_systemd:bullseye"
   rules:
-    - if: '$CI_COMMIT_BRANCH == /^master$/'
+    - if: $CI_COMMIT_BRANCH == 'master'
       changes:
         - debian.Dockerfile
         - debian_systemd.Dockerfile
@@ -73,7 +73,7 @@ debian_base-test:
     - docker push "$CI_REGISTRY_IMAGE/debian:11_dev_$GITLAB_USER_LOGIN"
     - docker push "$CI_REGISTRY_IMAGE/debian:bullseye_dev_$GITLAB_USER_LOGIN"
   rules:
-    - if: '$CI_COMMIT_BRANCH != /^master$/'
+    - if: $CI_COMMIT_BRANCH != 'master'
       changes:
         - debian.Dockerfile
       when: always
@@ -102,7 +102,7 @@ debian_systemd-test:
     - docker push "$CI_REGISTRY_IMAGE/debian_systemd:11_dev_$GITLAB_USER_LOGIN"
     - docker push "$CI_REGISTRY_IMAGE/debian_systemd:bullseye_dev_$GITLAB_USER_LOGIN"
   rules:
-    - if: '$CI_COMMIT_BRANCH != /^master$/'
+    - if: $CI_COMMIT_BRANCH != 'master'
       changes:
         - debian.Dockerfile
         - debian_systemd.Dockerfile
