@@ -81,6 +81,32 @@ centos_base-release:
         - centos/centos.Dockerfile
       when: always
 
+centos_systemd-release:
+  image: docker:latest
+  stage: extended
+  services:
+    - docker:dind
+  variables:
+    baseimage: lksnyder0/centos
+    tag8: "8"
+    tag7: "7"
+  before_script:
+    - docker login -u "$DOCKERHUB_USER" -p "$DOCKERHUB_PASSWORD"
+  script:
+    - docker build --pull -t "$DH_NAMESPACE/centos_systemd:8" --build-arg TAG=$tag8 --build-arg BASEIMAGE=$baseimage -f centos/centos_systemd.Dockerfile centos
+    - docker tag "$DH_NAMESPACE/centos_systemd:8" "$DH_NAMESPACE/centos_systemd:latest"
+    - docker build --pull -t "$DH_NAMESPACE/centos_systemd:7" --build-arg TAG=$tag7 --build-arg BASEIMAGE=$baseimage -f centos/centos_systemd.Dockerfile centos
+  after_script:
+    - docker push "$DH_NAMESPACE/centos_systemd:8"
+    - docker push "$DH_NAMESPACE/centos_systemd:latest"
+    - docker push "$DH_NAMESPACE/centos_systemd:7"
+  rules:
+    - if: $CI_COMMIT_BRANCH == 'master'
+      changes:
+        - centos/centos_systemd.Dockerfile
+      when: always
+
+
 ## Test/Dev Pipelines
 ### Debian
 debian_base-test:
