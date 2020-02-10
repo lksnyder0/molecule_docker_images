@@ -64,7 +64,7 @@ debian_base-test:
     - docker tag "$CI_REGISTRY_IMAGE/debian:10_dev_$GITLAB_USER_LOGIN" "$CI_REGISTRY_IMAGE/debian:buster_dev_$GITLAB_USER_LOGIN"
     - docker tag "$CI_REGISTRY_IMAGE/debian:10_dev_$GITLAB_USER_LOGIN" "$CI_REGISTRY_IMAGE/debian:latest_dev_$GITLAB_USER_LOGIN"
     - docker build --pull -t "$CI_REGISTRY_IMAGE/debian:11_dev_$GITLAB_USER_LOGIN" -f debian.Dockerfile --build-arg TAG=bullseye .
-    - docker tag "$CI_REGISTRY_IMAGE/debian:11_dev_$GITLAB_USER_LOGIN" "$CI_REGISTRY_IMAGE/debian:buster_dev_$GITLAB_USER_LOGIN"
+    - docker tag "$CI_REGISTRY_IMAGE/debian:11_dev_$GITLAB_USER_LOGIN" "$CI_REGISTRY_IMAGE/debian:bullseye_dev_$GITLAB_USER_LOGIN"
   after_script:
     - docker push "$CI_REGISTRY_IMAGE/debian:10_dev_$GITLAB_USER_LOGIN"
     - docker push "$CI_REGISTRY_IMAGE/debian:buster_dev_$GITLAB_USER_LOGIN"
