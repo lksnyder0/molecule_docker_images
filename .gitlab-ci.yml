@@ -2,6 +2,8 @@ stages:
   - base
   - extended
 
+## Release Pipelines
+### Debian
 debian_release:
   image: docker:latest
   stage: base
@@ -53,6 +55,30 @@ debian_systemd-release:
         - debian_systemd.Dockerfile
       when: always
 
+### CentOS
+centos_base-release:
+  image: docker:latest
+  stage: base
+  services:
+    - docker:dind
+  before_script:
+    - docker login -u "$DOCKERHUB_USER" -p "$DOCKERHUB_PASSWORD"
+  script:
+    - docker build --pull -t "$DH_NAMESPACE/centos:8" -f centos/centos.Dockerfile centos
+    - docker tag "$DH_NAMESPACE/centos:8" "$DH_NAMESPACE/centos:latest"
+    - docker build --pull -t "$DH_NAMESPACE/centos:7" -f centos/centos.Dockerfile centos
+  after_script:
+    - docker push "$DH_NAMESPACE/centos:8"
+    - docker push "$DH_NAMESPACE/centos:latest"
+    - docker push "$DH_NAMESPACE/centos:7"
+  rules:
+    - if: $CI_COMMIT_BRANCH == 'master'
+      changes:
+        - centos/centos.Dockerfile
+      when: always
+
+## Test/Dev Pipelines
+### Debian
 debian_base-test:
   image: docker:latest
   stage: base
@@ -107,5 +133,31 @@ debian_systemd-test:
       changes:
         - debian.Dockerfile
         - debian_systemd.Dockerfile
+      when: always
+
+### CentOS
+centos_base-test:
+  image: docker:latest
+  stage: base
+  services:
+    - docker:dind
+  environment:
+    baseimage: centos
+    tag8: "8"
+    tag7: "7"
+  before_script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+  script:
+    - docker build --compress --pull -t "$CI_REGISTRY_IMAGE/centos:8_dev_$GITLAB_USER_LOGIN" --build-arg TAG=$tag8 --build-arg BASEIMAGE=$baseimage -f centos/centos.Dockerfile centos
+    - docker tag "$CI_REGISTRY_IMAGE/centos:8_dev_$GITLAB_USER_LOGIN" "$CI_REGISTRY_IMAGE/centos:latest_$GITLAB_USER_LOGIN"
+    - docker build --compress --pull -t "$CI_REGISTRY_IMAGE/centos:7_dev_$GITLAB_USER_LOGIN" --build-arg TAG=$tag7 --build-arg BASEIMAGE=$baseimage -f centos/centos.Dockerfile centos
+  after_script:
+    - docker push "$CI_REGISTRY_IMAGE/centos:8_dev_$GITLAB_USER_LOGIN"
+    - docker push "$CI_REGISTRY_IMAGE/centos:latest_$GITLAB_USER_LOGIN"
+    - docker push "$CI_REGISTRY_IMAGE/centos:7_dev_$GITLAB_USER_LOGIN"
+  rules:
+    - if: $CI_COMMIT_BRANCH != 'master'
+      changes:
+        - centos/centos.Dockerfile
       when: always
 
