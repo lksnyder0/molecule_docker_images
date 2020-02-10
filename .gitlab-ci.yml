@@ -60,17 +60,17 @@ debian_base-test:
   before_script:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
   script:
-    - docker build --pull -t "$CI_REGISTRY_IMAGE/debian:10_$GITLAB_USER_LOGIN" -f debian.Dockerfile .
-    - docker tag "$CI_REGISTRY_IMAGE/debian:10_$GITLAB_USER_LOGIN" "$CI_REGISTRY_IMAGE/debian:buster_$GITLAB_USER_LOGIN"
-    - docker tag "$CI_REGISTRY_IMAGE/debian:10_$GITLAB_USER_LOGIN" "$CI_REGISTRY_IMAGE/debian:latest_$GITLAB_USER_LOGIN"
-    - docker build --pull -t "$CI_REGISTRY_IMAGE/debian:11_$GITLAB_USER_LOGIN" -f debian.Dockerfile --build-arg TAG=bullseye .
-    - docker tag "$CI_REGISTRY_IMAGE/debian:11_$GITLAB_USER_LOGIN" "$CI_REGISTRY_IMAGE/debian:buster_$GITLAB_USER_LOGIN"
+    - docker build --pull -t "$CI_REGISTRY_IMAGE/debian:10_dev_$GITLAB_USER_LOGIN" -f debian.Dockerfile .
+    - docker tag "$CI_REGISTRY_IMAGE/debian:10_dev_$GITLAB_USER_LOGIN" "$CI_REGISTRY_IMAGE/debian:buster_dev_$GITLAB_USER_LOGIN"
+    - docker tag "$CI_REGISTRY_IMAGE/debian:10_dev_$GITLAB_USER_LOGIN" "$CI_REGISTRY_IMAGE/debian:latest_dev_$GITLAB_USER_LOGIN"
+    - docker build --pull -t "$CI_REGISTRY_IMAGE/debian:11_dev_$GITLAB_USER_LOGIN" -f debian.Dockerfile --build-arg TAG=bullseye .
+    - docker tag "$CI_REGISTRY_IMAGE/debian:11_dev_$GITLAB_USER_LOGIN" "$CI_REGISTRY_IMAGE/debian:buster_dev_$GITLAB_USER_LOGIN"
   after_script:
-    - docker push "$CI_REGISTRY_IMAGE/debian:10_$GITLAB_USER_LOGIN"
-    - docker push "$CI_REGISTRY_IMAGE/debian:buster_$GITLAB_USER_LOGIN"
-    - docker push "$CI_REGISTRY_IMAGE/debian:latest_$GITLAB_USER_LOGIN"
-    - docker push "$CI_REGISTRY_IMAGE/debian:11_$GITLAB_USER_LOGIN"
-    - docker push "$CI_REGISTRY_IMAGE/debian:bullseye_$GITLAB_USER_LOGIN"
+    - docker push "$CI_REGISTRY_IMAGE/debian:10_dev_$GITLAB_USER_LOGIN"
+    - docker push "$CI_REGISTRY_IMAGE/debian:buster_dev_$GITLAB_USER_LOGIN"
+    - docker push "$CI_REGISTRY_IMAGE/debian:latest_dev_$GITLAB_USER_LOGIN"
+    - docker push "$CI_REGISTRY_IMAGE/debian:11_dev_$GITLAB_USER_LOGIN"
+    - docker push "$CI_REGISTRY_IMAGE/debian:bullseye_dev_$GITLAB_USER_LOGIN"
   rules:
     - if: '$CI_COMMIT_BRANCH != /^master$/'
       changes:
@@ -85,17 +85,17 @@ debian_systemd-test:
   before_script:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
   script:
-    - docker build --pull -t "$CI_REGISTRY_IMAGE/debian_systemd:10_$GITLAB_USER_LOGIN" -f debian_systemd.Dockerfile .
-    - docker tag "$CI_REGISTRY_IMAGE/debian_systemd:10_$GITLAB_USER_LOGIN" "$CI_REGISTRY_IMAGE/debian_systemd:buster_$GITLAB_USER_LOGIN"
-    - docker tag "$CI_REGISTRY_IMAGE/debian_systemd:10_$GITLAB_USER_LOGIN" "$CI_REGISTRY_IMAGE/debian_systemd:latest_$GITLAB_USER_LOGIN"
-    - docker build --pull -t "$CI_REGISTRY_IMAGE/debian_systemd:11_$GITLAB_USER_LOGIN" -f debian_systemd.Dockerfile .
-    - docker tag "$CI_REGISTRY_IMAGE/debian_systemd:11_$GITLAB_USER_LOGIN" "$CI_REGISTRY_IMAGE/debian_systemd:bullseye_$GITLAB_USER_LOGIN"
+    - docker build --pull -t "$CI_REGISTRY_IMAGE/debian_systemd:10_dev_$GITLAB_USER_LOGIN" -f debian_systemd.Dockerfile .
+    - docker tag "$CI_REGISTRY_IMAGE/debian_systemd:10_dev_$GITLAB_USER_LOGIN" "$CI_REGISTRY_IMAGE/debian_systemd:buster_dev_$GITLAB_USER_LOGIN"
+    - docker tag "$CI_REGISTRY_IMAGE/debian_systemd:10_dev_$GITLAB_USER_LOGIN" "$CI_REGISTRY_IMAGE/debian_systemd:latest_dev_$GITLAB_USER_LOGIN"
+    - docker build --pull -t "$CI_REGISTRY_IMAGE/debian_systemd:11_dev_$GITLAB_USER_LOGIN" -f debian_systemd.Dockerfile .
+    - docker tag "$CI_REGISTRY_IMAGE/debian_systemd:11_dev_$GITLAB_USER_LOGIN" "$CI_REGISTRY_IMAGE/debian_systemd:bullseye_dev_$GITLAB_USER_LOGIN"
   after_script:
-    - docker push "$CI_REGISTRY_IMAGE/debian_systemd:10_$GITLAB_USER_LOGIN"
-    - docker push "$CI_REGISTRY_IMAGE/debian_systemd:buster_$GITLAB_USER_LOGIN"
-    - docker push "$CI_REGISTRY_IMAGE/debian_systemd:latest_$GITLAB_USER_LOGIN"
-    - docker push "$CI_REGISTRY_IMAGE/debian_systemd:11_$GITLAB_USER_LOGIN"
-    - docker push "$CI_REGISTRY_IMAGE/debian_systemd:bullseye_$GITLAB_USER_LOGIN"
+    - docker push "$CI_REGISTRY_IMAGE/debian_systemd:10_dev_$GITLAB_USER_LOGIN"
+    - docker push "$CI_REGISTRY_IMAGE/debian_systemd:buster_dev_$GITLAB_USER_LOGIN"
+    - docker push "$CI_REGISTRY_IMAGE/debian_systemd:latest_dev_$GITLAB_USER_LOGIN"
+    - docker push "$CI_REGISTRY_IMAGE/debian_systemd:11_dev_$GITLAB_USER_LOGIN"
+    - docker push "$CI_REGISTRY_IMAGE/debian_systemd:bullseye_dev_$GITLAB_USER_LOGIN"
   rules:
     - if: '$CI_COMMIT_BRANCH != /^master$/'
       changes:
