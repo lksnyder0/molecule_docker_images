@@ -7,7 +7,7 @@ ENV container docker
 
 RUN echo 'debconf debconf/frontend select teletype' | debconf-set-selections
 
-RUN apt-get update              &&                  \
+RUN apt-get update                                  \
     &&  apt-get install -y --no-install-recommends  \
         systemd                                     \
         systemd-sysv                                \
