@@ -24,7 +24,7 @@ debian_release:
   rules:
     - if: '$CI_COMMIT_BRANCH == /^master$/'
       changes:
-      - debian.Dockerfile
+        - debian.Dockerfile
       when: always
 
 debian_systemd-release:
@@ -49,7 +49,8 @@ debian_systemd-release:
   rules:
     - if: '$CI_COMMIT_BRANCH == /^master$/'
       changes:
-      - debian_systemd.Dockerfile
+        - debian.Dockerfile
+        - debian_systemd.Dockerfile
       when: always
 
 debian_base-test:
@@ -74,7 +75,7 @@ debian_base-test:
   rules:
     - if: '$CI_COMMIT_BRANCH != /^master$/'
       changes:
-      - debian.Dockerfile
+        - debian.Dockerfile
       when: always
 
 debian_systemd-test:
@@ -103,6 +104,7 @@ debian_systemd-test:
   rules:
     - if: '$CI_COMMIT_BRANCH != /^master$/'
       changes:
-      - debian_systemd.Dockerfile
+        - debian.Dockerfile
+        - debian_systemd.Dockerfile
       when: always
 
