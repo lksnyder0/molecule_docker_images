@@ -61,12 +61,16 @@ centos_base-release:
   stage: base
   services:
     - docker:dind
+  variables:
+    baseimage: centos
+    tag8: "8"
+    tag7: "7"
   before_script:
     - docker login -u "$DOCKERHUB_USER" -p "$DOCKERHUB_PASSWORD"
   script:
-    - docker build --pull -t "$DH_NAMESPACE/centos:8" -f centos/centos.Dockerfile centos
+    - docker build --pull -t "$DH_NAMESPACE/centos:8" --build-arg TAG=$tag8 --build-arg BASEIMAGE=$baseimage -f centos/centos.Dockerfile centos
     - docker tag "$DH_NAMESPACE/centos:8" "$DH_NAMESPACE/centos:latest"
-    - docker build --pull -t "$DH_NAMESPACE/centos:7" -f centos/centos.Dockerfile centos
+    - docker build --pull -t "$DH_NAMESPACE/centos:7" --build-arg TAG=$tag7 --build-arg BASEIMAGE=$baseimage -f centos/centos.Dockerfile centos
   after_script:
     - docker push "$DH_NAMESPACE/centos:8"
     - docker push "$DH_NAMESPACE/centos:latest"
@@ -141,7 +145,7 @@ centos_base-test:
   stage: base
   services:
     - docker:dind
-  environment:
+  variables:
     baseimage: centos
     tag8: "8"
     tag7: "7"
