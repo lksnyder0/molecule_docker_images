@@ -7,6 +7,7 @@ RUN apt-get update                                  \
         sudo                                        \
         bash                                        \
         ca-certificates                             \
+        rsync                                       \
         iproute2                                    \
     &&  apt-get clean                               \
     &&  rm -rf                                      \

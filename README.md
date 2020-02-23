@@ -39,3 +39,32 @@ platforms:
     pre_build_image: True
 
 ```
+
+## Included packages
+
+### debian:*
+  - python3
+  - sudo
+  - bash
+  - ca-certificates
+  - rsync
+  - iproute2
+
+### debian_systemd:*
+All in debian plus:
+  - systemd
+  - systemd-sysv
+  - cron
+  - anacron
+
+### centos
+  - python3
+  - sudo
+  - python3-devel
+  - python3-dnf
+  - bash
+  - rsync
+  - iproute
+
+### centos_systemd
+All in centos.
