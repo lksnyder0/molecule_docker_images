@@ -9,6 +9,7 @@ RUN apt-get update                                  \
         ca-certificates                             \
         rsync                                       \
         iproute2                                    \
+        python3-apt                                 \
     &&  apt-get clean                               \
     &&  rm -rf                                      \
         /var/lib/apt/lists/*                        \
